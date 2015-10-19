@@ -1,0 +1,48 @@
+#define prefsPath @"/var/mobile/Library/Preferences/com.gviridis.pushrecord.plist"
+#define RETURN_IF_DISABLED if (!enabled) { return %orig; }
+
+static BOOL enabled = NO;
+
+static BOOL upOnce = NO;
+
+%hook CKAudioRecorder
+
+- (void)stopRecording:(id /* block */)arg1 {
+	RETURN_IF_DISABLED
+	upOnce = NO;
+	%orig;
+}
+
+%end
+
+%hook CKMessageEntryView
+
+- (void)joystickShutterButtonUpAction:(id)arg1 {
+	RETURN_IF_DISABLED
+	if (!upOnce) {
+		upOnce = YES;
+		return;
+	}
+	upOnce = NO;
+	%orig;
+	return;
+}
+
+%end
+
+
+
+static void reloadPrefs() {
+	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:prefsPath];
+	enabled = settings[@"Enable"] ? [settings[@"Enable"] boolValue] : YES;
+	upOnce = NO;
+}
+
+void prefsChanged() {
+	reloadPrefs();
+}
+
+%ctor {
+	reloadPrefs();
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)prefsChanged, CFSTR("com.gviridis.pushrecord.prefschanged"), NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+}

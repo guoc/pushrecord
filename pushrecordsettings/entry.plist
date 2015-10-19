@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = PushRecordSettings;
+	cell = PSLinkCell;
+	detail = PushRecordSettingsListController;
+	icon = PushRecordSettings;
+	isController = 1;
+	label = PushRecord;
+    };
+}

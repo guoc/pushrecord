@@ -1,0 +1,11 @@
+Package: com.gviridis.pushrecord
+Name: PushRecord
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Hands-free voice note for Messages
+  PushRecord adds a truly hands-free experience when it comes to voice note recording. It lets you tap and hold the record button for a short second to begin recording. Then you can talk freely without having to worry about anything. Once done, just tap the stop button to end the recording and send your beautiful voice to the recipient.
+Maintainer: gviridis
+Author: gviridis
+Section: Tweaks
+Icon: file:///Library/PreferenceBundles/PushRecordSettings.bundle/PushRecord
